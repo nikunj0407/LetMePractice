@@ -52,7 +52,7 @@ test:
 production:
   adapter: postgresql
   encoding: unicode
-  database: ittest_development
+  database: ittest_production
   pool: 5
   username: ittest_admin
   password: 'nothing'

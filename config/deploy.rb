@@ -6,12 +6,12 @@ set :deploy_via, :remote_cache
 
 set :application, "LetMePractice"
 set :deploy_to, "/var/www/rails_apps/#{application}"
-set :user, "ittest_admin"
-set :admin_runner, "ittest_admin"
+set :user, "root"
+set :admin_runner, "root"
 
-role :app, "http://letmepractice.com"
-role :web, "http://letmepractice.com"
-role :db, "http://letmepractice.com", :primary => true
+role :app, "letmepractice.com"
+role :web, "letmepractice.com"
+role :db, "letmepractice.com", :primary => true
 
 namespace :deploy do
   desc "Restart Application"
