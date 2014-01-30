@@ -1,0 +1,132 @@
+
+body {
+    background: #F7F7F7;
+    font-weight: lighter;
+}
+
+.panel {
+    border: 1px solid #E1E1E8;
+    float: left;
+    width: 66%;
+    display: none;
+}
+
+.panelcontent {
+    /*border: 1px solid;*/
+    padding-left: 2%;
+    width: 95%;
+}
+
+#login_panel {
+    /*border: 1px solid;*/
+    float: left;
+    width: 25%;
+    padding: 2%;
+}
+
+input[type=checkbox], input[type=radio] {
+    height: 18px;
+    width: 18px;
+    z-index: 12;
+    line-height: normal;
+    cursor: pointer;
+}
+
+input:focus, input[type=checkbox]:hover, input[type=radio]:hover {
+    border: 2px solid #F59942;
+}
+
+.fields {
+    width: 100%;
+}
+
+h4.bigger {
+    font-size: 19px;
+}
+
+.lighter {
+    font-weight: 200;
+}
+
+.header {
+    border-bottom: 1px solid #CCCCCC;
+    line-height: 28px;
+    margin-bottom: 16px;
+    margin-top: 18px;
+    padding-bottom: 4px;
+}
+
+.login_lower {
+    width: 100%;
+}
+
+#login_btn {
+    width: 100%;
+    float: left;
+    padding: 5px;
+    margin-top: 10px;
+    font-size: 16px;
+}
+
+#sign_up_btn {
+    width: 93%;
+    float: left;
+    padding: 5px;
+    margin-top: 10px;
+    font-size: 16px;
+    color: #ffffff;
+}
+
+#guest_signin_btn {
+    width: 93%;
+    float: left;
+    padding: 5px;
+    margin-top: 10px;
+    font-size: 16px;
+}
+.testimonial{
+    padding: 5px;
+    margin-top: 10px;
+}
+.lead {
+    font-size: 21px;
+    font-weight: 200;
+    line-height: 1.4;
+    margin-bottom: -1px;
+    color: #393939;
+    font-family: 'Open Sans'
+}
+blockquote{
+    border-left: 5px solid #E5EAF1;
+    color: #393939;
+    padding-left: 15px;
+    font-size: 17.5px;
+    font-weight: 300;
+    line-height: 1.25;
+    margin-left: 0;
+}
+.bodytext{
+    color: #393939;
+    font-size: 15px;
+    line-height: 1.5;
+    font-weight: lighter;
+}
+small {
+    color: #999999;
+    line-height: 1.42857;
+    font-size: 85%;
+    display: block;
+    margin-top: -11px;
+}
+.bluetext{
+    color: #428BCA;
+    font-weight:bold;
+}
+.redtext{
+    color: #B94A48;
+    font-weight:bold;
+}
+.greentext{
+    color: #468847;
+    font-weight:bold;
+}
