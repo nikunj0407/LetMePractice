@@ -1,0 +1,62 @@
+<style>
+    #main_content {
+        top: 15%;
+        padding: 10% 5%;
+        width: 90%;
+        font-family: 'Open Sans';
+        left: 0;
+    }
+
+    #leftside {
+        width: 60%;
+        float: left;
+        color: #7A7A7A;
+        font-weight: 300;
+        text-align: right;
+        padding-right: 10%;
+    }
+
+    #rightside {
+        width: 30%;
+        float: right;
+    }
+
+    h1 {
+        font-size: 4em;
+        margin-top: 2.5%;
+        line-height: 1em;
+    }
+
+    #continue {
+        font-size: 2em;
+        padding: 2% 22%;
+        color: #ffffff;
+    }
+</style>
+<div id='top_bar'>
+  <a href="/" id='logo'>
+  </a>
+  <%= link_to 'Logout', signout_path, id: "logout_btn", class: "red_button" %>
+  <a id="contact_us_btn" class="light_button" href='/contact_us'>Contact Us</a>
+  <a id="pricing_btn" class="light_button" href='/pricing'>Pricing</a>
+</div>
+<div id='main_content'>
+  <% if !current_user.has_paid %>
+      <div class="alert_upgrade" style="width: 99.3%; margin-top: -10%">
+        Upgrade for MORE Tests!!! Practice & Conquer IT!!
+      </div>
+      <br>
+  <% end %>
+    <div id="leftside">
+        <h1>Test is submitted successfully!!</h1><br>
+        <a href="<%= test_results_path %>" id='continue' class='green_button'>View Results</a>
+    </div>
+    <div id="rightside">
+        <img src="assets/gears.gif">
+    </div>
+    <div id='footer_panel'>
+        <div id='copyright'>All Rights Reserved. 2013 <span class="copy_sym">&copy;</span>
+            <a href='#'><span
+                class="Y YB_logo">Yuva</span><span class="B YB_logo">Beat</span></a></div>
+    </div>
+</div>

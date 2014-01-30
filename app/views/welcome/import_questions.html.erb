@@ -1,0 +1,5 @@
+<h2>Import Questions</h2>
+<%= form_tag importing_questions_path, multipart: true do %>
+    <%= file_field_tag :file %>
+    <%= submit_tag "Import" %>
+<% end %>

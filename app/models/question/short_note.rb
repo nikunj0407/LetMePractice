@@ -1,0 +1,2 @@
+class ShortNote < Question
+end

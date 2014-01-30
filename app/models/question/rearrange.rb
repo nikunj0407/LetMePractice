@@ -1,0 +1,2 @@
+class Rearrange < Question
+end

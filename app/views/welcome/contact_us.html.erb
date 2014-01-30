@@ -1,0 +1,75 @@
+<style>
+    .contact_us_lbl {
+        color: #438EB9;
+        font-size: 2.5em;
+    }
+
+    #container {
+        top: 27%;
+        padding: 10px;
+        width: 70%;
+        margin-left: 10%;
+    }
+
+    #left_container {
+        width: 50%;
+        float: left;
+    }
+
+    #right_container {
+        background-image: url("/assets/wave-pattern-white.png");
+        border: 1px solid #DDDDDD;
+        float: right;
+        padding: 0 20px;
+        width: 40%;
+
+    }
+
+    .contact_lbl{
+        color: #E8554E;
+    }
+
+    p {
+        font-size: 1.1em;
+        line-height: 20px;
+    }
+
+    #happy_help{
+        font-size: 2em;
+        color: #87B87F;
+    }
+
+</style>
+<div id='top_bar'>
+  <a href="/" id='logo'>
+  </a>
+  <% if current_user.present? %>
+      <%= link_to 'Logout', signout_path, id: "logout_btn", class: "red_button" %>
+  <% else %>
+      <%= link_to 'Login', '/', id: "logout_btn", class: "red_button" %>
+  <% end %>
+  <a id="pricing_btn" class="light_button" href='/pricing'>Pricing</a>
+</div>
+<div id="container">
+  <div id="left_container">
+    <h1 class="contact_us_lbl">Contact Us</h1>
+    <p class="text">We are here to answer any questions you may have. Reach out to us and we'll respond as soon as we
+      can.</p>
+
+    <p class="text">Even if there is something you have always wanted to get and can't find it on Let.Me.Practice., let
+      us know and we promise we'll do our best to find a solution for your queries.</p>
+  </div>
+  <div id="right_container">
+    <h1 id="happy_help" >We are here to help you !!!</h1>
+    <p class="contact_lbl">CALL</p>
+    <p>+91-9833664934</p>
+    <p class="contact_lbl">EMAIL</p>
+    <p>letmepractice@gmail.com</p>
+  </div>
+
+</div>
+<div id='footer_panel' style="position: fixed; bottom: 10%;">
+  <div id='copyright'>All Rights Reserved. 2013 <span class="copy_sym">&copy;</span>
+    <a href='#'><span class="Y YB_logo">Yuva</span><span class="B YB_logo">Beat</span></a>
+  </div>
+</div>

@@ -1,0 +1,128 @@
+<style>
+    #legends {
+        float: right;
+        padding: 4% 2%;
+        width: 40%;
+    }
+
+    .legend_label {
+        font-size: 1.1em;
+        font-family: 'Open Sans';
+    }
+
+    .colorize {
+        padding: 0 6%;
+        background-color: #000000;
+    }
+</style>
+<div id='top_bar'>
+  <a href="/" id='logo'>
+
+  </a>
+  <%= link_to 'Logout', signout_path, id: "logout_btn", class: "red_button" %>
+  <a id="contact_us_btn" class="light_button" href='/contact_us'>Contact Us</a>
+  <a id="pricing_btn" class="light_button" href='/pricing'>Pricing</a>
+</div>
+<div id="container">
+  <div id='name_text'>
+    <h2>Hi, <%= @user.name %> ...</h2>
+
+    <h2>You have <span id='test_left'><%= @test_count %></span> test(s) left.</h2>
+    <br>
+    <br>
+    <%= link_to 'View Reports', test_results_path, id: "view_report", class: "green_button" %>
+    <br>
+    <br>
+    <br>
+    <%= link_to 'Progress Reports', progress_report_users_path, id: "progress_report", class: "blue_button" %>
+    <br>
+    <br>
+    <br>
+    <%= link_to 'Take Test', test_path, id: "take_test", class: "red_button" %>
+  </div>
+  <div id='pie_chart'>
+    <h2 style="text-align: center;">Question Paper Distribution</h2>
+    <canvas height="325" width="325" id="question_dist"></canvas>
+    <div id="legends">
+      <p class="legend_label"><span class='colorize'></span>&nbsp;&nbsp;&nbsp; Fill in the blanks (10marks)</p>
+
+      <p class="legend_label"><span class='colorize'></span>&nbsp;&nbsp;&nbsp; True False (10marks)</p>
+
+      <p class="legend_label"><span class='colorize'></span>&nbsp;&nbsp;&nbsp; MCQ1 (20marks)</p>
+
+      <p class="legend_label"><span class='colorize'></span>&nbsp;&nbsp;&nbsp; MCQ2 (10marks)</p>
+
+      <p class="legend_label"><span class='colorize'></span>&nbsp;&nbsp;&nbsp; MCQ3 (6marks)</p>
+
+      <p class="legend_label"><span class='colorize'></span>&nbsp;&nbsp;&nbsp; Rearrange (4marks)</p>
+
+      <p class="legend_label"><span class='colorize'></span>&nbsp;&nbsp;&nbsp; Short Notes (10marks)</p>
+
+      <p class="legend_label"><span class='colorize'></span>&nbsp;&nbsp;&nbsp; Writing Program (10marks)</p>
+
+    </div>
+  </div>
+
+  <% if !current_user.has_paid %>
+      <div class="alert_upgrade" style="float: left;margin-top: 3%;">
+        Upgrade for MORE Tests!!! Practice & Conquer IT!!
+      </div>
+  <% end %>
+  <div id='footer_panel' style="position: fixed; bottom: 10%;">
+    <div id='copyright'>All Rights Reserved. 2013 <span class="copy_sym">&copy;</span>
+      <a href='#'><span class="Y YB_logo">Yuva</span><span class="B YB_logo">Beat</span></a>
+    </div>
+  </div>
+</div>
+
+<script>
+    var data = [
+        {
+            value: 10,
+            color: "#68bc31"
+
+        },
+        {
+            value: 10,
+            color: "#2091cf"
+
+        },
+        {
+            value: 20,
+            color: "#af4e96"
+
+        },
+        {
+            value: 10,
+            color: "#da5430"
+
+        },
+        {
+            value: 6,
+            color: "#001a6b"
+
+        },
+        {
+            value: 4,
+            color: "#848484"
+
+        },
+        {
+            value: 10,
+            color: "#e59729"
+
+        },
+        {
+            value: 10,
+            color: "#b3c1cb"
+
+        }
+    ];
+    var ctx = document.getElementById("question_dist").getContext("2d");
+    var piechart = new Chart(ctx).Pie(data);
+    $(function () {
+        $.each($('.colorize'), function (i, cell) {
+            $(cell).css('background-color', data[i]['color']);
+        });
+    });
+</script>

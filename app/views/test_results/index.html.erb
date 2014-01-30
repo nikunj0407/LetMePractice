@@ -1,0 +1,113 @@
+<style>
+    #test_report_container {
+        position: absolute;
+        top: 10%;
+        width: 97%;
+        padding: 1%;
+        font-family: 'Open Sans';
+    }
+
+    #test_report {
+        width: 98%;
+        color: #707070;
+    }
+
+    table, tr, td, th {
+        border: 1px solid #ddd;
+        border-collapse: collapse;
+    }
+
+    th {
+        font-size: 1.2em;
+        font-weight: 900;
+    }
+
+    td{
+        font-size: 1.2em;
+        line-height: 20px;
+    }
+
+    a {
+        color: #0088CC;
+        font-weight: 400;
+        font-size: 14px;
+    }
+</style>
+
+
+<div id='top_bar'>
+  <a href="/" id='logo'>
+
+  </a>
+  <%= link_to 'Logout', signout_path, id: "logout_btn", class: "red_button" %>
+  <a id="contact_us_btn" class="light_button" href='/contact_us'>Contact Us</a>
+  <a id="pricing_btn" class="light_button" href='/pricing'>Pricing</a>
+</div>
+
+<div id="test_report_container">
+  <% if !current_user.has_paid %>
+      <div class="alert_upgrade" style="width: 97.5%;">
+        Upgrade for MORE Tests!!! Practice & Conquer IT!!
+      </div>
+      <br>
+  <% end %>
+  <p class='remarks' style="width: 96.5%;">
+    * We provide you a score for objective questions.For subjective questions,we provide points to be included in an answer.<br>
+    + Click on a pie chart to view question-wise performance for a test
+  </p>
+  <br>
+  <br>
+  <table id="test_report" class="table table-striped table-bordered">
+    <thead>
+    <tr>
+      <th>Test No</th>
+      <th>Test Date</th>
+      <th>Time Taken</th>
+      <th>Score*</th>
+      <th>Overall Performance<sup>+</sup></th>
+    </tr>
+    </thead>
+    <tbody>
+    <% @test_results.each_with_index do |test_result, index| %>
+        <tr>
+          <td><%= index + 1 %></td>
+          <td><%= test_result.created_at.to_date %></td>
+          <td>
+            <% time = test_result.test_time.split(':') %>
+            <%= time[0] + ' hours : ' + time[1] + ' minutes : ' + time[2] + ' sec' %>
+          </td>
+          <td style="font-size: 2em;"><%= test_result.obj_score %>/60</td>
+          <td><a href="<%= show_test_result_path(test_result.id) %>"><canvas id="canvas_<%= index + 1 %>" height="100" width="100"></canvas><span style="font-size: 2em; color: #69D2E7; margin-top: 40px;" class="marks_scored"><%= (test_result.obj_score*100/60).to_s + '%' %> </span></a></td>
+        </tr>
+        <script>
+            var data = [
+                {
+                    value: <%= test_result.obj_score %>,
+                    color: "#69D2E7"
+
+                },
+                {
+                    value: <%= 60 - test_result.obj_score %>,
+                    color: "#F38630"
+                }
+            ];
+            var ctx = document.getElementById("canvas_<%= index + 1 %>").getContext("2d");
+            var piechart = new Chart(ctx).Pie(data);
+        </script>
+    <% end %>
+    </tbody>
+  </table>
+  <div id='footer_panel'>
+    <div id='copyright'>All Rights Reserved. 2013 <span class="copy_sym">&copy;</span>
+      <a href='#'><span class="Y YB_logo">Yuva</span><span class="B YB_logo">Beat</span></a>
+    </div>
+  </div>
+</div>
+
+<script type="text/javascript">
+  $(function(){
+      if($('#test_report_container').innerHeight() < 500){
+        $('#footer_panel').css({'position': 'fixed','bottom': '10%'});
+      }
+  });
+</script>

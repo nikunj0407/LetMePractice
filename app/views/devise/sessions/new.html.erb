@@ -1,0 +1,74 @@
+<script type="text/javascript">
+  $(function(){
+     if($('.instruction_note').text() === 'x '){
+         $('.instruction_note').css('padding', 0)
+         $('.close').hide();
+     }else
+         $('.close').show();
+
+      $('.close').on('click', function(){
+          $('.instruction_note').hide();
+      });
+  });
+
+</script>
+
+<div id='top_bar'>
+  <a href="/" id='logo'>
+
+  </a>
+  <a id="contact_us_btn" class="light_button" href='/contact_us'>Contact Us</a>
+  <a id="pricing_btn" class="light_button" href='/pricing'>Pricing</a>
+</div>
+<div id='container'>
+  <div id='intro_panel' class='panel' style="display:block;">
+    <div id='about_content' class='panelcontent'>
+      <p class="lead">Dear Students!!
+        <br>Here's on-line platform to provide a simulation experience of HSC IT exams of Maharashtra State Board.
+      </p>
+
+      <p class="bodytext">Your first reaction might be WHY??Is it needed??? Here&#39;s your answer:</p>
+      <ol class="bodytext">
+        <li>Till today you are habituated with paper-pen. Suddenly the <span class="redtext">change of interface</span>
+          from paper-pen to click-keyboard will definitely be different and challenge could be writing speed
+          oops!!<span class="redtext">Typing speed.</span></li>
+        <li>Students do mark few questions to attempt at the end. In hurry and tension of exam these questions might be
+          left unanswered as there is <span class="redtext">no marking facility</span> it online.
+        </li>
+        <li>It is not only the change in conduct of exam but also change in evaluation pattern.Though you know the
+          answer you may loose marks as the <span class="redtext">machine evaluation</span> will not consider any
+          spelling cliches.
+        </li>
+      </ol>
+      <p class="bodytext">So, we take this challenge to provide not only
+        <span class="greentext">simulation of online IT examination</span> but also make you practice to the extent that
+        builds <span class="greentext">confidence in the subject.</span></p>
+
+      <p class="bluetext"><b>Let&#39;s practice together and conquer IT!!</b></p>
+
+    </div>
+  </div>
+  <div id=login_panel>
+
+    <h4 class="lighter bigger header">Sign-in</h4>
+    <p class="instruction_note" style="display: block" id="alert"><%= alert %><span class="close">x</span> </p>
+    <%= form_for(resource, :as => resource_name, :url => session_path(resource_name)) do |f| %>
+        <div class="fields">
+          <%= f.email_field :email, :autofocus => true, placeholder: "Your Email" %>
+          <%= f.password_field :password, placeholder: "Password" %>
+        </div>
+        <div class="login_lower">
+          <button class= "blue_button" id = "login_btn">Sign in</button>
+          <%= link_to "Practice for FREE!!", new_registration_path(resource_name), id: "sign_up_btn", class: "red_button" %>
+          <br/>
+          <%#= link_to "Sign In as Guest", '/create_guest', id: "guest_signin_btn", class: "green_button" %>
+        </div>
+    <% end %>
+
+  </div>
+  <div id='footer_panel' style="position: fixed; bottom: 10%;">
+    <div id='copyright'>All Rights Reserved. 2013 <span class="copy_sym">&copy;</span>
+      <a href='#'><span class="Y YB_logo">Yuva</span><span class="B YB_logo">Beat</span></a>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,30 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>User:</b>
+  <%= @test_result.user_id %>
+</p>
+
+<p>
+  <b>Test count:</b>
+  <%= @test_result.test_count %>
+</p>
+
+<p>
+  <b>Obj score:</b>
+  <%= @test_result.obj_score %>
+</p>
+
+<p>
+  <b>Sub score:</b>
+  <%= @test_result.sub_score %>
+</p>
+
+<p>
+  <b>Total score:</b>
+  <%= @test_result.total_score %>
+</p>
+
+
+<%= link_to 'Edit', edit_test_result_path(@test_result) %> |
+<%= link_to 'Back', test_results_path %>

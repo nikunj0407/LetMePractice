@@ -1,0 +1,25 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Cipher:</b>
+  <%= @question.cipher %>
+</p>
+
+<p>
+  <b>Type:</b>
+  <%= @question.type %>
+</p>
+
+<p>
+  <b>Chapter:</b>
+  <%= @question.chapter_id %>
+</p>
+
+<p>
+  <b>Img:</b>
+  <%= @question.img %>
+</p>
+
+
+<%= link_to 'Edit', edit_question_path(@question) %> |
+<%= link_to 'Back', questions_path %>

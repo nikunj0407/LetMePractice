@@ -1,0 +1,115 @@
+<style>
+
+    #progress_report_table_container {
+        font-family: 'Open Sans';
+        padding: 2%;
+        position: absolute;
+        top: 10%;
+        width: 95%;
+    }
+
+    #progress_report_table {
+        width: 100%;
+    }
+
+    table, tr, td, th {
+        border: 1px solid #ddd;
+        border-collapse: collapse;
+    }
+
+    .pie_reports td canvas {
+        margin-left: -50%;
+    }
+
+    .label {
+        font-size: 1.3em;
+        line-height: 20px;
+        width: 20%;
+        text-align: left;
+    }
+
+    .marks_scored {
+        padding-left: 1%;
+    }
+
+</style>
+<script type="text/javascript">
+    $(function () {
+        var test_format = [10, 10, 20, 10, 6, 4];
+        var question_keys = ["Fill in the blanks", "True False", "MCQ1", "MCQ2", "MCQ3", "Rearrange"];
+        var colors_array = ['#A0408B', '#69D2E7', '#275AA2', '#158875', '#0E6892', '#4D5360']
+        var score_array = <%= @final_hash %>
+        var test_count = <%= @test_count %>
+
+        var toAppend_head = "<tr>";
+        toAppend_head += "<th>Question Type</th>";
+        for (var index = 0; index < <%= @final_hash.size/6 %>; index++) {
+            toAppend_head += "<th>Test No " + (test_count - index) + "</th>";
+        }
+        toAppend_head += "</tr>";
+        $('table#progress_report_table thead').append(toAppend_head);
+
+        var toAppend;
+
+        var que_index = 0, end = question_keys.length, loop_count = 0;
+        for (var index = 1; index <= <%= @progress_report_users.size %>; index++) {
+            var row_count = 0;
+            for (var que_index = que_index; que_index < end; que_index++) {
+                if (loop_count == 0) {
+                    toAppend = '<tr id="row_' + row_count + '">';
+                    toAppend += "<td class='label'>" + question_keys[que_index] + "</td></tr>";
+                    $('table#progress_report_table tbody').append(toAppend);
+                }
+                var pieData = [
+                    {
+                        value: (test_format[row_count] - score_array[que_index]),
+                        color: "#F38630"
+                    },
+                    {
+                        value: score_array[que_index],
+                        color: colors_array[row_count]
+                    }
+                ];
+                canvas_name = "canvas_" + question_keys[row_count] + "_" + index;
+                toAppend = "<td><canvas id=\"" + canvas_name + "\" height=\"75\" width=\"75\"></canvas><span class='marks_scored'>You scored: " + score_array[que_index] + "/" + test_format[row_count] + "</span></td>";
+                $('#row_' + row_count).append(toAppend);
+                var myPie = new Chart(document.getElementById(canvas_name).getContext("2d")).Pie(pieData);
+                toAppend = "</tr>";
+                $('table#progress_report_table tbody').append(toAppend);
+                row_count += 1;
+            }
+            if (end < <%= @final_hash.size %>) {
+                end += 6;
+            }
+            loop_count += 1;
+        }
+    });
+</script>
+<div id='top_bar'>
+  <a href="/" id='logo'>
+
+  </a>
+  <%= link_to 'Logout', signout_path, id: "logout_btn", class: "red_button" %>
+  <a id="contact_us_btn" class="light_button" href='/contact_us'>Contact Us</a>
+  <a id="pricing_btn" class="light_button" href='/pricing'>Pricing</a>
+</div>
+<div id="progress_report_table_container">
+  <% if !current_user.has_paid %>
+      <div class="alert_upgrade" style="width: 99.3%;">
+        Upgrade for MORE Tests!!! Practice & Conquer IT!!
+      </div>
+      <br>
+  <% end %>
+  <p class="remarks" style="width: 98.5%;">The progress report below shows your performance in last 3 tests.</p>
+  <table id='progress_report_table' class="table table-striped table-bordered">
+    <thead>
+    </thead>
+    <tbody class="pie_reports">
+    </tbody>
+  </table>
+  <div id='footer_panel' style="width: 100%;">
+    <div id='copyright'>All Rights Reserved. 2013 <span class="copy_sym">&copy;</span>
+      <a href='#'><span class="Y YB_logo">Yuva</span><span class="B YB_logo">Beat</span></a>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,21 @@
+create or replace view v_progress_report_user as
+select user_id, test_result_id, max(qt1) as fill, max(qs1) as fill_score,
+max(qt2) as tf, max(qs2) as tf_score,
+max(qt3) as mcq1, max(qs3) as mcq1_score,
+max(qt4) as mcq2, max(qs4) as mcq2_score,
+max(qt5) as mcq3, max(qs5) as mcq3_score,
+max(qt6) as rearrange, max(qs6) as rearrange_score 
+from (select user_id, test_result_id, 
+case when question_type = 'FillInTheBlank' then question_type else null end as qt1, 
+case when question_type = 'FillInTheBlank' then question_type_score else null end as qs1, 
+case when question_type = 'TrueFalse' then question_type else null end as qt2, 
+case when question_type = 'TrueFalse' then question_type_score else null end as qs2,
+case when question_type = 'Mcq1' then question_type else null end as qt3, 
+case when question_type = 'Mcq1' then question_type_score else null end as qs3,
+case when question_type = 'Mcq2' then question_type else null end as qt4, 
+case when question_type = 'Mcq2' then question_type_score else null end as qs4,
+case when question_type = 'Mcq3' then question_type else null end as qt5, 
+case when question_type = 'Mcq3' then question_type_score else null end as qs5,
+case when question_type = 'Rearrange' then question_type else null end as qt6, 
+case when question_type = 'Rearrange' then question_type_score else null end as qs6
+from (select user_id, test_result_id, question_type, sum(score) as question_type_score from test_details group by user_id, question_type, test_result_id) sub_query1) sub_query2 group by user_id, test_result_id;

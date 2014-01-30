@@ -1,0 +1,23 @@
+<h1>Listing questionwise_marks_distributions</h1>
+
+<table>
+  <tr>
+    <th>Question type</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @questionwise_marks_distributions.each do |questionwise_marks_distribution| %>
+  <tr>
+    <td><%= questionwise_marks_distribution.question_type %></td>
+    <td><%= link_to 'Show', questionwise_marks_distribution %></td>
+    <td><%= link_to 'Edit', edit_questionwise_marks_distribution_path(questionwise_marks_distribution) %></td>
+    <td><%= link_to 'Destroy', questionwise_marks_distribution, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Questionwise marks distribution', new_questionwise_marks_distribution_path %>

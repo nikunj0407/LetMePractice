@@ -1,0 +1,21 @@
+<%= form_for(@questionwise_marks_distribution) do |f| %>
+  <% if @questionwise_marks_distribution.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@questionwise_marks_distribution.errors.count, "error") %> prohibited this questionwise_marks_distribution from being saved:</h2>
+
+      <ul>
+      <% @questionwise_marks_distribution.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :question_type %><br />
+    <%= f.text_field :question_type %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

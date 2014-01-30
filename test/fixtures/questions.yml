@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  cipher: MyText
+  type: 
+  chapter_id: 1
+  img: 
+
+two:
+  cipher: MyText
+  type: 
+  chapter_id: 1
+  img: 

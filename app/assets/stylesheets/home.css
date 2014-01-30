@@ -1,0 +1,42 @@
+#logout_btn {
+    float: right;
+    font-size: 16px;
+    margin-right: 6%;
+    margin-top: 5px;
+    padding: 5px;
+    width: 125px;
+    color: #ffffff;
+    box-shadow:  0px 0px 3px #000
+}
+
+h2 {
+    font-size: 2em;
+    font-weight: lighter;
+    line-height: 1em;
+}
+
+#test_left {
+    font-size: 1.5em;
+    color: #438EB9;
+    text-shadow: 2px 2px 2px;
+}
+
+#name_text{
+    width: 35%;
+    float: left;
+    padding-right: 1%;
+    height: 100%;
+}
+#pie_chart{
+    width: 60%;
+    float: left;
+}
+
+
+#view_report, #take_test, #progress_report{
+    color: #FFFFFF;
+    font-size: 1.2em;
+    padding: 10px;
+    position: absolute;
+    width: 25%;
+}

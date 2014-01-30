@@ -1,0 +1,403 @@
+<style>
+    .stats {
+        height: 200px;
+        width: 100%;
+        padding: 20px 0 20px 20px;
+    }
+
+    canvas {
+        float: left;
+        margin-left: 20px;
+    }
+
+    .stats h2 {
+        margin: 50px 0 0 330px;
+        font-size: 1.5em;
+    }
+
+    #correctness_help p {
+        line-height: 8px;
+    }
+</style>
+
+<div id="test_panel" style="display:block;">
+<div id='top_bar'>
+  <a href="/" id='logo'>
+
+  </a>
+  <%= link_to 'Logout', signout_path, id: "logout_btn", class: "red_button" %>
+  <a id="contact_us_btn" class="light_button" href='/contact_us'>Contact Us</a>
+  <a id="pricing_btn" class="light_button" href='/pricing'>Pricing</a>
+  <div class="name_div"><h3>Hi, <%= current_user.name %> </h3></div>
+
+</div>
+
+<div id='left_panel'>
+  <a href='#' id='q1' class="question_list">Question 1</a>
+  <a href='#' id='q2' class="question_list">Question 2</a>
+  <a href='#' id='q3' class="question_list">Question 3</a>
+  <a href='#' id='q4' class="question_list">Question 4</a>
+  <a href='#' id='q5' class="question_list">Question 5</a>
+  <a href='#' id='q6' class="question_list">Question 6</a>
+  <!--<a href='#' id='q7' class="question_list">Question 7</a>-->
+  <!--<a href='#' id='q8' class="question_list">Question 8</a>-->
+  <br>
+  <br>
+
+  <div id="correctness_help" style="border: 5px solid #D3D3D3; font-size: 12px; line-height: 10px; padding-left: 30px;">
+    <p><span style="background-color: green">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> Correct</p>
+
+    <p><span style="background-color: yellow">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> Partially Correct</p>
+
+    <p><span style="background-color: red">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span> Wrong</p>
+  </div>
+</div>
+<div id='main_content'>
+
+<div id='q1_div' style="display: block" class='content active'>
+  <h3>Question 1 >> Fill in the blank<span class="weightage">(1 X 10)</span></h3>
+  <hr>
+  <br>
+
+  <div class='stats'>
+    <canvas id="q1_canvas" width="200" height="200"></canvas>
+    <h2>In Question 1,<br><br> You scored <span class='correct'><%= @fill_score %><span class='out_of'>/10</span></span>
+    </h2>
+  </div>
+
+  <ol class="test_question" id='fill'>
+    <% @fill_in_the_blank.each_with_index do |qn, index| %>
+        <% test_detail_obj = qn.test_details.where(user_id: current_user.id).first %>
+        <% class_to_assign = 'correct_ans' %>
+        <% correct_ans = '' %>
+        <% if (test_detail_obj.score == 0) %>
+            <% class_to_assign = 'wrong_ans' %>
+            <% correct_ans=qn.options.first.key %>
+        <% end %>
+        <li class="<%= class_to_assign %>">
+          <div class="srno_field"><%= (index+1) %></div>
+          <div class="que_field"><%= qn.cipher %></div>
+
+          <div class="ans_field">
+            <input disabled='disabled' type="text" size="15" name="<%= qn.id %>" value="<%= test_detail_obj.answer %>">
+          </div>
+          <% if correct_ans != '' %>
+              <p class="correct_ans_label">Correct Ans:&nbsp;&nbsp;&nbsp;<%= correct_ans %></p>
+          <% end %>
+        </li>
+
+    <% end %>
+  </ol>
+</div>
+<div id='q2_div' class='content'>
+  <h3>Question 2 >> State whether True or False<span class="weightage">(1 X 10)</span></h3>
+  <hr>
+  <br>
+
+  <div class='stats'>
+    <canvas id="q2_canvas" width="200" height="200"></canvas>
+    <h2>In Question 2,<br><br> You scored <span class='correct'><%= @tf_score %><span class='out_of'>/10</span></span>
+    </h2>
+  </div>
+  <ol class="test_question" id='TF'>
+    <% @true_false.each_with_index do |qn, index| %>
+        <% test_detail_obj = qn.test_details.where(user_id: current_user.id).first %>
+        <% class_to_assign = 'correct_ans' %>
+        <% correct_ans = '' %>
+        <% if (test_detail_obj.score == 0) %>
+            <% class_to_assign = 'wrong_ans' %>
+            <% correct_ans=qn.options.where(val: 1).first.key %>
+        <% end %>
+        <li class="<%= class_to_assign %>">
+          <div class="srno_field"><%= (index+1) %></div>
+          <div class="que_field"><%= qn.cipher %></div>
+
+          <div class="ans_field">
+            <% qn.options.each do |option| %>
+                <% if qn.test_details.where(user_id: current_user.id).first.answer === option.key %>
+                    <input disabled='disabled' type="radio" checked="true"><%= option.key %>
+                <% else %>
+                    <input disabled='disabled' type="radio"><%= option.key %>
+                <% end %>
+            <% end %>
+          </div>
+          <% if correct_ans != '' %>
+              <p class="correct_ans_label">Correct Ans:&nbsp;&nbsp;&nbsp;<%= correct_ans %></p>
+          <% end %>
+        </li>
+    <% end %>
+
+  </ol>
+
+</div>
+<div id='q3_div' class='content '>
+  <h3>Question 3 >> Multiple Choice with one correct<span class="weightage">(1 X 20)</span></h3>
+  <hr>
+  <br>
+
+  <div class='stats'>
+    <canvas id="q3_canvas" width="200" height="200"></canvas>
+    <h2>In Question 3,<br><br> You scored <span class='correct'><%= @mcq1_score %><span class='out_of'>/20</span></span>
+    </h2>
+  </div>
+  <ol class="mcq test_question">
+    <% @mcq1.each_with_index do |qn, index| %>
+        <% test_detail_obj = qn.test_details.where(user_id: current_user.id).first %>
+        <% class_to_assign = 'correct_ans' %>
+        <% correct_ans = '' %>
+        <% if (test_detail_obj.score == 0) %>
+            <% class_to_assign = 'wrong_ans' %>
+            <% correct_ans=qn.options.where(val: 1).first.key %>
+        <% end %>
+        <li class="<%= class_to_assign %>">
+          <div class="srno_field"><%= index + 1 %></div>
+          <div class="que_field_mcq"><%= qn.cipher %></div>
+          <br>
+          <br>
+
+          <div class="ans_field_mcq">
+            <% qn.options.each do |option| %>
+                <p>
+                  <% if qn.test_details.where(user_id: current_user.id).first.answer === option.key %>
+                      <input disabled='disabled' type="radio" checked="true"><%= option.key %>
+                  <% else %>
+                      <input disabled='disabled' type="radio"><%= option.key %>
+                  <% end %>
+                </p>
+            <% end %>
+          </div>
+          <% if correct_ans != '' %>
+              <p class="correct_ans_label">Correct Ans:&nbsp;&nbsp;&nbsp;<%= correct_ans %></p>
+          <% end %>
+        </li>
+    <% end %>
+  </ol>
+</div>
+<div id='q4_div' class='content '>
+  <h3>Question 4 >> Multiple Choice with two correct<span class="weightage">(2 X 5)</span></h3>
+  <hr>
+  <br>
+
+  <div class='stats'>
+    <canvas id="q4_canvas" width="200" height="200"></canvas>
+    <h2>In Question 4,<br><br> You scored <span class='correct'><%= @mcq2_score %><span class='out_of'>/10</span></span>
+    </h2>
+  </div>
+  <ol class="mcq test_question">
+    <% @mcq2.each_with_index do |qn, index| %>
+        <% test_detail_obj = qn.test_details.where(user_id: current_user.id).first %>
+        <% class_to_assign = 'correct_ans' %>
+        <% correct_ans = [] %>
+        <% if (test_detail_obj.score == 1) %>
+            <% class_to_assign = 'partial_ans' %>
+        <% elsif  (test_detail_obj.score == 0) %>
+            <% class_to_assign = 'wrong_ans' %>
+        <% end %>
+        <li class="<%= class_to_assign %>">
+          <div class="srno_field"><%= index + 1 %></div>
+          <div class="que_field_mcq"><%= qn.cipher %></div>
+          <br>
+
+          <div class="ans_field_mcq">
+            <% ans_array = qn.test_details.where(user_id: current_user.id).first.answer.split('||') %>
+            <% qn.options.each_with_index do |option, index| %>
+                <p>
+                  <% if qn.test_details.where(user_id: current_user.id).first.answer.include?(option.key) %>
+                      <%= check_box_tag(qn.id.to_s + '[]', option.id, checked = true, options = {disabled: 'disabled'}) %><%= option.key %>
+                  <% else %>
+                      <%= check_box_tag(qn.id.to_s + '[]', option.id, checked = false, options = {disabled: 'disabled'}) %><%= option.key %>
+                  <% end %>
+                </p>
+                <% if option.val == 1 %>
+                    <% correct_ans << option.key %>
+                <% end %>
+            <% end %>
+          </div>
+          <% if class_to_assign != 'correct_ans' %>
+              <p class="correct_ans_label">Correct Ans:&nbsp;&nbsp;&nbsp;
+                <% correct_ans.each do |ans| %>
+                    <%= (correct_ans.last === ans) ? ans : (ans + ',  ') %>
+                <% end %>
+              </p>
+          <% end %>
+        </li>
+    <% end %>
+  </ol>
+</div>
+<div id='q5_div' class='content'>
+  <h3>Question 5 >> Multiple Choice with three correct<span class="weightage">(2 X 3)</span></h3>
+  <hr>
+  <br>
+
+  <div class='stats'>
+    <canvas id="q5_canvas" width="200" height="200"></canvas>
+    <h2>In Question 5,<br><br> You scored <span class='correct'><%= @mcq3_score %><span class='out_of'>/6</span></span>
+    </h2>
+  </div>
+  <ol class="mcq test_question">
+    <% @mcq3.each_with_index do |qn, index| %>
+        <% test_detail_obj = qn.test_details.where(user_id: current_user.id).first %>
+        <% class_to_assign = 'correct_ans' %>
+        <% correct_ans = [] %>
+        <% if (test_detail_obj.score == 0) %>
+            <% class_to_assign = 'wrong_ans' %>
+        <% elsif  (test_detail_obj.score < 3) %>
+            <% class_to_assign = 'partial_ans' %>
+        <% end %>
+        <li class="<%= class_to_assign %>">
+          <div class="srno_field"><%= index + 1 %></div>
+          <div class="que_field_mcq"><%= qn.cipher %></div>
+          <br>
+
+          <div class="ans_field_mcq">
+            <% qn.options.each_with_index do |option, index| %>
+                <p>
+                  <% if qn.test_details.where(user_id: current_user.id).first.answer.include?(option.key) %>
+                      <%= check_box_tag(qn.id.to_s + '[]', option.id, checked = true, options = {disabled: 'disabled'}) %><%= option.key %>
+                  <% else %>
+                      <%= check_box_tag(qn.id.to_s + '[]', option.id, checked = false, options = {disabled: 'disabled'}) %><%= option.key %>
+                  <% end %>
+                </p>
+                <% if option.val == 1 %>
+                    <% correct_ans << option.key %>
+                <% end %>
+            <% end %>
+          </div>
+          <% if class_to_assign != 'correct_ans' %>
+              <p class="correct_ans_label">Correct Ans:&nbsp;&nbsp;&nbsp;
+                <% correct_ans.each do |ans| %>
+                    <%= (correct_ans.last === ans) ? ans : (ans + ',  ') %>
+                <% end %>
+              </p>
+          <% end %>
+        </li>
+    <% end %>
+  </ol>
+</div>
+<div id='q6_div' class='content '>
+  <h3>Question 6 >> Rearrange in correct sequence<span class="weightage">(2 X 2)</span></h3>
+  <hr>
+  <br>
+
+  <div class='stats'>
+    <canvas id="q6_canvas" width="200" height="200"></canvas>
+    <h2>In Question 6,<br><br> You scored
+      <span class='correct'><%= @rearrange_score %><span class='out_of'>/4</span></span></h2>
+  </div>
+  <ol class="mcq test_question">
+    <% @rearrange.each_with_index do |qn, index| %>
+        <% test_detail_obj = qn.test_details.where(user_id: current_user.id).first %>
+        <% class_to_assign = 'correct_ans' %>
+        <% correct_ans = '' %>
+        <% if (test_detail_obj.score == 0) %>
+            <% class_to_assign = 'wrong_ans' %>
+            <% correct_ans=qn.options.first.key %>
+        <% end %>
+        <li class="<%= class_to_assign %>">
+          <div class="srno_field"><%= index + 1 %></div>
+          <div class="que_field_mcq"><%= qn.cipher %></div>
+          <br>
+          <br>
+
+          <div class="ans_field_mcq">
+            <% qn.options.each do |option| %>
+                <p>
+                  <input type="text" value="<%= qn.test_details.where(user_id: current_user.id).first.answer %>" disabled="disable">
+                </p>
+            <% end %>
+          </div>
+          <% if correct_ans != '' %>
+              <p class="correct_ans_label">Correct Ans:&nbsp;&nbsp;&nbsp;<%= correct_ans %></p>
+          <% end %>
+        </li>
+    <% end %>
+  </ol>
+</div>
+</div>
+</div>
+
+<script>
+    var q1_data = [
+        {
+            value: <%= @fill_score %>,
+            color: "#69D2E7"
+
+        },
+        {
+            value: <%= 10 - @fill_score %>,
+            color: "#F38630"
+        }
+    ];
+    var ctx = document.getElementById("q1_canvas").getContext("2d");
+    var piechart = new Chart(ctx).Pie(q1_data);
+
+    var q2_data = [
+        {
+            value: <%= @tf_score %>,
+            color: "#69D2E7"
+
+        },
+        {
+            value: <%= 10 - @tf_score %>,
+            color: "#F38630"
+        }
+    ];
+    var ctx = document.getElementById("q2_canvas").getContext("2d");
+    var piechart = new Chart(ctx).Pie(q2_data);
+
+    var q3_data = [
+        {
+            value: <%= @mcq1_score %>,
+            color: "#69D2E7"
+
+        },
+        {
+            value: <%= 20 - @mcq1_score %>,
+            color: "#F38630"
+        }
+    ];
+    var ctx = document.getElementById("q3_canvas").getContext("2d");
+    var piechart = new Chart(ctx).Pie(q3_data);
+
+    var q4_data = [
+        {
+            value: <%= @mcq2_score %>,
+            color: "#69D2E7"
+
+        },
+        {
+            value: <%= 10 - @mcq2_score %>,
+            color: "#F38630"
+        }
+    ];
+    var ctx = document.getElementById("q4_canvas").getContext("2d");
+    var piechart = new Chart(ctx).Pie(q4_data);
+
+    var q5_data = [
+        {
+            value: <%= @mcq3_score %>,
+            color: "#69D2E7"
+
+        },
+        {
+            value: <%= 6 - @mcq3_score %>,
+            color: "#F38630"
+        }
+    ];
+    var ctx = document.getElementById("q5_canvas").getContext("2d");
+    var piechart = new Chart(ctx).Pie(q5_data);
+
+    var q6_data = [
+        {
+            value: <%= @rearrange_score %>,
+            color: "#69D2E7"
+
+        },
+        {
+            value: <%= 4 - @rearrange_score %>,
+            color: "#F38630"
+        }
+    ];
+    var ctx = document.getElementById("q6_canvas").getContext("2d");
+    var piechart = new Chart(ctx).Pie(q6_data);
+</script>
