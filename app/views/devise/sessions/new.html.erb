@@ -1,15 +1,28 @@
-<script type="text/javascript">
-  $(function(){
-     if($('.instruction_note').text() === 'x '){
-         $('.instruction_note').css('padding', 0)
-         $('.close').hide();
-     }else
-         $('.close').show();
+<style>
+    #forgot {
+        font-size: 1.2em;
+        font-family: "Open Sans";
+        width: 100%;
+    }
 
-      $('.close').on('click', function(){
-          $('.instruction_note').hide();
-      });
-  });
+    #forgot:hover {
+        text-decoration: underline;
+        color: #2283C5;
+    }
+</style>
+
+<script type="text/javascript">
+    $(function () {
+        if ($('.instruction_note').text() === 'x ') {
+            $('.instruction_note').css('padding', 0)
+            $('.close').hide();
+        } else
+            $('.close').show();
+
+        $('.close').on('click', function () {
+            $('.instruction_note').hide();
+        });
+    });
 
 </script>
 
@@ -51,6 +64,7 @@
   <div id=login_panel>
 
     <h4 class="lighter bigger header">Sign-in</h4>
+
     <p class="instruction_note" style="display: block" id="alert"><%= alert %><span class="close">x</span> </p>
     <%= form_for(resource, :as => resource_name, :url => session_path(resource_name)) do |f| %>
         <div class="fields">
@@ -58,10 +72,14 @@
           <%= f.password_field :password, placeholder: "Password" %>
         </div>
         <div class="login_lower">
-          <button class= "blue_button" id = "login_btn">Sign in</button>
-          <%= link_to "Practice for FREE!!", new_registration_path(resource_name), id: "sign_up_btn", class: "red_button" %>
+          <button class="blue_button" id="login_btn">Sign in</button>
+          <%= link_to "Practice one FREE Test!!!", new_registration_path(resource_name), id: "sign_up_btn", class: "red_button" %>
+          <br/>
+          <br/><br/>
+          <br/><br/>
           <br/>
           <%#= link_to "Sign In as Guest", '/create_guest', id: "guest_signin_btn", class: "green_button" %>
+          <%= link_to "Forgot Password?", '/contact_us', id: 'forgot'%>
         </div>
     <% end %>
 

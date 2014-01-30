@@ -9,6 +9,10 @@ set :deploy_to, "/var/www/rails_apps/#{application}"
 set :user, "root"
 set :admin_runner, "root"
 
+require "rvm/capistrano"
+require "bundler/capistrano"
+set :rake, 'bundle exec rake'
+
 role :app, "letmepractice.com"
 role :web, "letmepractice.com"
 role :db, "letmepractice.com", :primary => true
