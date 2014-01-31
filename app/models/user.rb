@@ -28,7 +28,7 @@ class User < ActiveRecord::Base
 
   def send_registration_confirmation
     puts '====> ' + self.email
-    UserMailer.registration_confirmation(self).deliver
+    #UserMailer.registration_confirmation(self).deliver
   end
 
 end
