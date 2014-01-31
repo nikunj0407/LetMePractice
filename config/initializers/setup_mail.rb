@@ -9,5 +9,5 @@ ActionMailer::Base.smtp_settings = {
     :content_type => "text/html"
 }
 
-ActionMailer::Base.default_url_options[:host] = "localhost:3000"
+ActionMailer::Base.default_url_options[:host] = "localhost"
 #Mail.register_interceptor(DevelopmentMailInterceptor) if Rails.env.development?

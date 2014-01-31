@@ -3,8 +3,6 @@ require "rvm/capistrano"
 require "bundler/capistrano"
 set :rake, 'bundle exec rake'
 
-load 'db/seeds'
-
 default_run_options[:pty] = true
 set :repository, "https://github.com/nikunj0407/LetMePractice.git"
 set :scm, "git"
