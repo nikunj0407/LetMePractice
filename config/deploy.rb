@@ -1,3 +1,10 @@
+$:.unshift(File.expand_path('./lib', ENV['rvm_path']))
+require "rvm/capistrano"
+require "bundler/capistrano"
+set :rake, 'bundle exec rake'
+
+load 'db/seeds'
+
 default_run_options[:pty] = true
 set :repository, "https://github.com/nikunj0407/LetMePractice.git"
 set :scm, "git"
@@ -9,9 +16,7 @@ set :deploy_to, "/var/www/rails_apps/#{application}"
 set :user, "root"
 set :admin_runner, "root"
 
-require "rvm/capistrano"
-require "bundler/capistrano"
-set :rake, 'bundle exec rake'
+set :rvm_type, :system
 
 role :app, "letmepractice.com"
 role :web, "letmepractice.com"
@@ -21,6 +26,10 @@ namespace :deploy do
   desc "Restart Application"
   task :restart, :roles => :app do
     run "touch #{current_path}/tmp/restart.txt"
+  end
+  desc "reload the database with seed data"
+  task :seed do
+    run "cd #{current_path}; bundle exec rake db:seed RAILS_ENV=#{rails_env}"
   end
   desc "Start Application -- not needed for Passenger"
   task :start, :roles => :app do

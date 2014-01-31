@@ -214,6 +214,7 @@ DEPENDENCIES
   devise
   execjs
   jquery-rails
+  mail
   omniauth-facebook
   paperclip
   pg

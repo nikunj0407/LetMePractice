@@ -24,4 +24,11 @@ class User < ActiveRecord::Base
   #  end
   #end
 
+  after_create :send_registration_confirmation
+
+  def send_registration_confirmation
+    puts '====> ' + self.email
+    UserMailer.registration_confirmation(self).deliver
+  end
+
 end

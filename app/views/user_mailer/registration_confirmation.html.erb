@@ -33,16 +33,29 @@
 </head>
 <body>
 <div id="container" style="height: 120px; width: 430px;position: relative; background-size: 100% 100%;padding: 30px 30px 200px 30px;">
-  <img src="assets/mailer_bg.jpg">
-  <h1 id="name" style='left: 150px;top: 60px;position: absolute;'>Welcome, <span style="color: #87B87F"><%= @user.name %></span></h1>
+  <img src="http://localhost:3000/app/assets/images/mailer_bg.jpg">
+
+  <h1 id="name" style='left: 150px;top: 60px;position: absolute;'>Welcome,
+    <span style="color: #87B87F"><%= @user.name %></span></h1>
 
   <div id="msg-container" style="left: 140px; top: 120px;position: absolute;">
 
     <p class="greet" style="font-size: 1.2em;line-height: 1.5em;">
       Greetings from Let.Me.Practice. Team,<br>
       You have successfully registered.<br>
-      Good Luck for your Exams!!!<br><br><br>
-      <span style="color: #2283C5"> Let's practice together and conquer IT!!!</span>
+      Good Luck for your Exams!!!
+    </p>
+    <br>
+
+    <h3 style="color: #D15B47"> Let's practice together and conquer IT!!!</h3>
+    <br>
+    <br>
+    <br>
+    <p class="greet" style="font-size: 1.2em;line-height: 1.5em;">
+      Regards,<br>
+      We are here to help you!!!<br>
+      <a href="mailto:letmepractice@gmail.com">Shoot us a mail for any query</a><br>
+      Call us at <a href="tel:letmepractice@gmail.com">+919833664934</a>
     </p>
   </div>
 </div>

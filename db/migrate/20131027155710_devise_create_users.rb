@@ -20,12 +20,12 @@ class DeviseCreateUsers < ActiveRecord::Migration
       t.string :last_sign_in_ip
 
       ## User details
-      t.string :name, :null => false, :default => "Let.Me.Practice. User"
-      t.string :institute_name, :default => "Let.Me.Practice. Team"
-      t.string :institute_email, :default => "testit.yuvabeat@gmail.com"
+      t.string :name, :null => false
+      t.string :institute_name, :default => ""
+      t.string :institute_email, :default => ""
       t.boolean :is_direct, :default => true
-      t.string :mobile_no, :default => ""
-      t.integer :max_tests, :default => 10
+      t.string :mobile_no, null: false
+      t.integer :max_tests, :default => 1
       t.boolean :is_admin, :default => false
       t.boolean :has_paid, default: false
       t.boolean :is_guest, default: true
