@@ -74,7 +74,15 @@
       <p>letmepractice@gmail.com</p>
 
     </div>
-    <%= link_to "Practice one FREE Test!!!", '/users/sign_in', id: "sign_up_btn", class: "red_button" %>
+    <% if current_user.present? %>
+        <% if !current_user.has_paid %>
+            <div class="alert_upgrade" style="float: left; margin-top: 9%; padding: 35px 5px 22px; width: 98%;">
+              Upgrade for MORE Tests!!! Practice & Conquer IT!!
+            </div>
+        <% end %>
+    <% else %>
+        <%= link_to "Practice one FREE Test!!!", '/users/sign_in', id: "sign_up_btn", class: "red_button" %>
+    <% end %>
   </div>
 
 </div>
