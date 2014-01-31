@@ -21,7 +21,7 @@ ActiveRecord::Schema.define(:version => 20131230060651) do
   end
 
   create_table "options", :force => true do |t|
-    t.string   "key"
+    t.text     "key"
     t.integer  "val"
     t.integer  "question_id"
     t.datetime "created_at",  :null => false

@@ -181,6 +181,9 @@ class TestDetailsController < ApplicationController
     @mcq2 = Question.where(['id IN (?) AND type = (?)', @question_ids, 'Mcq2'])
     @mcq3 = Question.where(['id IN (?) AND type = (?)', @question_ids, 'Mcq3'])
     @rearrange = Question.where(['id IN (?) AND type = (?)', @question_ids, 'Rearrange'])
+    @short_note_1 = Question.where(['id IN (?) AND type = (?) AND weightage = (?)', @question_ids, 'ShortNote', 4])
+    @short_note_2 = Question.where(['id IN (?) AND type = (?) AND weightage = (?)', @question_ids, 'ShortNote', 2])
+    @html_code = Question.where(['id IN (?) AND type = (?)', @question_ids, 'CodingOutput'])
 
     @questionwise_score = TestDetail.group(:question_type, :test_result_id).having(test_result_id: test_id).sum(:score)
 

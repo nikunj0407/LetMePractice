@@ -80,4 +80,14 @@ class ChaptersController < ApplicationController
       format.json { head :no_content }
     end
   end
+
+  def import
+    if request.post? && params[:file].present?
+      Chapter.import(params[:file])
+      redirect_to '/admin/chapter', notice: "Chapters imported."
+    else
+      redirect_to '/admin/chapter', notice: "Chapters couldn't be imported."
+    end
+  end
+
 end

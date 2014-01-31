@@ -21,8 +21,16 @@ Ittest::Application.routes.draw do
   get '/create_guest' => "welcome#create_guest", :as => :create_guest
   get '/contact_us' => "welcome#contact_us", :as => :contact_us
   get '/pricing' => "welcome#pricing", :as => :pricing
+
   get '/import_questions' => "welcome#import_questions", :as => :import_questions
   post '/importing_questions' => "questions#import", :as => :importing_questions
+
+  get '/import_chapters' => "welcome#import_chapters", :as => :import_chapters
+  post '/importing_chapters' => "chapters#import", :as => :importing_chapters
+
+  get '/import_users' => "welcome#import_users", :as => :import_users
+  post '/importing_users' => "welcome#importing_users", :as => :importing_users
+
   match '/test' => 'welcome#test', as: :test
   match '/test_submit' => 'test_details#test_submit', as: :test_submit
   match '/submit' => 'test_details#submit', as: :test_submit

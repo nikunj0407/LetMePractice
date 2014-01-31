@@ -1,7 +1,7 @@
 class CreateOptions < ActiveRecord::Migration
   def change
     create_table :options do |t|
-      t.string :key
+      t.text :key
       t.integer :val
       t.integer :question_id
 

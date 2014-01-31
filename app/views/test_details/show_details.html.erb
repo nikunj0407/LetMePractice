@@ -39,8 +39,8 @@
   <a href='#' id='q4' class="question_list">Question 4</a>
   <a href='#' id='q5' class="question_list">Question 5</a>
   <a href='#' id='q6' class="question_list">Question 6</a>
-  <!--<a href='#' id='q7' class="question_list">Question 7</a>-->
-  <!--<a href='#' id='q8' class="question_list">Question 8</a>-->
+  <a href='#' id='q7' class="question_list">Question 7</a>
+  <a href='#' id='q8' class="question_list">Question 8</a>
   <br>
   <br>
 
@@ -311,6 +311,76 @@
           <% end %>
         </li>
     <% end %>
+  </ol>
+</div>
+<div id='q7_div' class='content '>
+  <h3>Question 7(a) >> Answer in brief<span class="weightage">(4 X 2)</span></h3>
+  <hr>
+  <br>
+  <ol class="mcq test_question">
+    <% @short_note_1.each_with_index do |qn, index| %>
+        <li>
+          <div class="srno_field"><%= index + 1 %></div>
+          <div class="que_field_mcq"><%= qn.cipher %></div>
+          <br>
+          <br>
+
+          <div class="ans_field_mcq">
+            <textarea name="<%= qn.id %>"  disabled="disable">
+              <%= qn.test_details.where(user_id: current_user.id).first.answer %>
+            </textarea>
+            <p class="correct_ans_label"><%= qn.options.first.key %></p>
+          </div>
+        </li>
+    <% end %>
+  </ol>
+  <br>
+
+  <h3>Question 7(b) >> Answer in brief<span class="weightage">(2 X 1)</span></h3>
+  <hr>
+  <br>
+  <ol class="mcq test_question">
+    <% @short_note_2.each_with_index do |qn, index| %>
+        <li>
+          <div class="srno_field"><%= index + 1 %></div>
+          <div class="que_field_mcq"><%= qn.cipher %></div>
+          <br>
+          <br>
+
+          <div class="ans_field_mcq">
+            <textarea name="<%= qn.id %>"  disabled="disable">
+              <%= qn.test_details.where(user_id: current_user.id).first.answer %>
+            </textarea>
+            <p class="correct_ans_label"><%= qn.options.first.key %></p>
+          </div>
+        </li>
+    <% end %>
+  </ol>
+</div>
+<div id='q8_div' class='content '>
+  <h3>Question 8 >> Write the program for given output<span class="weightage">(5 X 2)</span></h3>
+  <hr>
+  <br>
+  <ol class="mcq test_question">
+    <% @html_code.each_with_index do |qn, index| %>
+        <li>
+          <div class="srno_field"><%= index + 1 %></div>
+          <div class="que_field_html"><%= qn.cipher %>
+            <br><br>
+            <img src="<%= qn.img.url %>">
+          </div>
+          <br>
+          <br>
+
+          <div class="ans_field_html ans_field_mcq">
+            <textarea name="<%= qn.id %>"  disabled="disable">
+              <%= qn.test_details.where(user_id: current_user.id).first.answer %>
+            </textarea>
+            <p class="correct_ans_label"><%= qn.options.first.key %></p>
+          </div>
+        </li>
+    <% end %>
+    </li>
   </ol>
 </div>
 </div>

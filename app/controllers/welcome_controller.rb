@@ -24,8 +24,8 @@ class WelcomeController < ApplicationController
         @true_false = Question.find_by_sql("select * from (SELECT *, row_number() over (partition by chapter_id order by random()) FROM questions where questions.type = 'TrueFalse' AND questions.id NOT IN (" + @previous_question_set.map { |i| i.question_id }.to_s.gsub('[', '').gsub(']', '') + ")) a where row_number=1;").sample(6)
         @true_false_next = Question.where(type: 'TrueFalse').where(['id NOT IN (?)', @true_false.map { |q| q.id }]).order('RANDOM()').limit(4).sample(4)
 
-        @mcq1 = Question.find_by_sql("select * from (SELECT *, row_number() over (partition by chapter_id order by random()) FROM questions where questions.type = 'Mcq1' AND questions.id NOT IN (" + @previous_question_set.map { |i| i.question_id }.to_s.gsub('[', '').gsub(']', '') + ")) a where row_number between 1 AND 3;").sample(18)
-        @mcq1_next = Question.where(type: 'Mcq1').where(['id NOT IN (?)', @mcq1.map { |q| q.id }]).order('RANDOM()').limit(2).sample(2)
+        @mcq1 = Question.find_by_sql("select * from (SELECT *, row_number() over (partition by chapter_id order by random()) FROM questions where questions.type = 'Mcq1' AND questions.id NOT IN (" + @previous_question_set.map { |i| i.question_id }.to_s.gsub('[', '').gsub(']', '') + ")) a where row_number between 1 AND 2;").sample(12)
+        @mcq1_next = Question.where(type: 'Mcq1').where(['id NOT IN (?)', @mcq1.map { |q| q.id }]).order('RANDOM()').limit(8).sample(8)
 
         @mcq2 = Question.where(type: 'Mcq2').where(['id NOT IN (?)', @previous_question_set.map { |i| i.question_id }]).order('RANDOM()').limit(5)
 
@@ -33,9 +33,9 @@ class WelcomeController < ApplicationController
 
         @rearrange = Question.where(type: 'Rearrange').where(['id NOT IN (?)', @previous_question_set.map { |i| i.question_id }]).order('RANDOM()').limit(2)
 
-        @short_note_1 = Question.where(type: 'ShortNote', weightage: 2).where(['id NOT IN (?)', @previous_question_set.map { |i| i.question_id }]).order('RANDOM()').limit(2)
+        @short_note_1 = Question.where(type: 'ShortNote', weightage: 4).where(['id NOT IN (?)', @previous_question_set.map { |i| i.question_id }]).order('RANDOM()').limit(2)
 
-        @short_note_2 = Question.where(type: 'ShortNote', weightage: 4).where(['id NOT IN (?)', @previous_question_set.map { |i| i.question_id }]).order('RANDOM()').limit(3)
+        @short_note_2 = Question.where(type: 'ShortNote', weightage: 2).where(['id NOT IN (?)', @previous_question_set.map { |i| i.question_id }]).order('RANDOM()').limit(1)
 
         @html_code = Question.where(type: 'CodingOutput').where(['id NOT IN (?)', @previous_question_set.map { |i| i.question_id }]).order('RANDOM()').limit(2)
       else
@@ -45,8 +45,8 @@ class WelcomeController < ApplicationController
         @true_false = Question.find_by_sql("select * from (SELECT *, row_number() over (partition by chapter_id order by random()) FROM questions where questions.type = 'TrueFalse') a where row_number=1;").sample(6)
         @true_false_next = Question.where(type: 'TrueFalse').where(['id NOT IN (?)', @true_false.map { |q| q.id }]).order('RANDOM()').limit(4).sample(4)
 
-        @mcq1 = Question.find_by_sql("select * from (SELECT *, row_number() over (partition by chapter_id order by random()) FROM questions where questions.type = 'Mcq1') a where row_number between 1 AND 3;").sample(18)
-        @mcq1_next = Question.where(type: 'Mcq1').where(['id NOT IN (?)', @mcq1.map { |q| q.id }]).order('RANDOM()').limit(2).sample(2)
+        @mcq1 = Question.find_by_sql("select * from (SELECT *, row_number() over (partition by chapter_id order by random()) FROM questions where questions.type = 'Mcq1') a where row_number between 1 AND 2;").sample(12)
+        @mcq1_next = Question.where(type: 'Mcq1').where(['id NOT IN (?)', @mcq1.map { |q| q.id }]).order('RANDOM()').limit(2).sample(8)
 
         @mcq2 = Question.where(type: 'Mcq2').order('RANDOM()').limit(5)
 
@@ -54,9 +54,9 @@ class WelcomeController < ApplicationController
 
         @rearrange = Question.where(type: 'Rearrange').order('RANDOM()').limit(2)
 
-        @short_note_1 = Question.where(type: 'ShortNote', weightage: 2).order('RANDOM()').limit(2)
+        @short_note_1 = Question.where(type: 'ShortNote', weightage: 4).order('RANDOM()').limit(2)
 
-        @short_note_2 = Question.where(type: 'ShortNote', weightage: 4).order('RANDOM()').limit(3)
+        @short_note_2 = Question.where(type: 'ShortNote', weightage: 2).order('RANDOM()').limit(1)
 
         @html_code = Question.where(type: 'CodingOutput').order('RANDOM()').limit(2)
       end
@@ -67,8 +67,8 @@ class WelcomeController < ApplicationController
       @true_false = Question.find_by_sql("select * from (SELECT *, row_number() over (partition by chapter_id) FROM questions where questions.type = 'TrueFalse') a where row_number=1;").sample(6)
       @true_false_next = Question.where(type: 'TrueFalse').where(['id NOT IN (?)', @true_false.map { |q| q.id }]).limit(4).sample(4)
 
-      @mcq1 = Question.find_by_sql("select * from (SELECT *, row_number() over (partition by chapter_id) FROM questions where questions.type = 'Mcq1') a where row_number between 1 AND 3;").sample(18)
-      @mcq1_next = Question.where(type: 'Mcq1').where(['id NOT IN (?)', @mcq1.map { |q| q.id }]).limit(2).sample(2)
+      @mcq1 = Question.find_by_sql("select * from (SELECT *, row_number() over (partition by chapter_id) FROM questions where questions.type = 'Mcq1') a where row_number between 1 AND 2;").sample(12)
+      @mcq1_next = Question.where(type: 'Mcq1').where(['id NOT IN (?)', @mcq1.map { |q| q.id }]).limit(2).sample(8)
 
       @mcq2 = Question.where(type: 'Mcq2').limit(5)
 
@@ -76,36 +76,34 @@ class WelcomeController < ApplicationController
 
       @rearrange = Question.where(type: 'Rearrange').limit(2)
 
-      @short_note_1 = Question.where(type: 'ShortNote', weightage: 2).limit(2)
+      @short_note_1 = Question.where(type: 'ShortNote', weightage: 4).limit(2)
 
-      @short_note_2 = Question.where(type: 'ShortNote', weightage: 4).limit(3)
+      @short_note_2 = Question.where(type: 'ShortNote', weightage: 2).limit(1)
 
       @html_code = Question.where(type: 'CodingOutput').limit(2)
     end
-    #insert_string = SetObj.insert_obj(@fill_in_the_blank, current_user.id)
-    #insert_string << SetObj.insert_obj(@fill_in_the_blank_next, current_user.id)
-    #insert_string << SetObj.insert_obj(@true_false, current_user.id)
-    #insert_string << SetObj.insert_obj(@true_false_next, current_user.id)
-    #insert_string << SetObj.insert_obj(@mcq1, current_user.id)
-    #insert_string << SetObj.insert_obj(@mcq1_next, current_user.id)
-    #insert_string << SetObj.insert_obj(@mcq2, current_user.id)
-    #insert_string << SetObj.insert_obj(@mcq3, current_user.id)
-    #insert_string << SetObj.insert_obj(@rearrange, current_user.id)
-    #insert_string << SetObj.insert_obj(@short_note_1, current_user.id)
-    #insert_string << SetObj.insert_obj(@short_note_2, current_user.id)
-    #insert_string << SetObj.insert_obj(@html_code, current_user.id)
-    #
-    #final_string = insert_string.to_s.gsub('[', '').gsub(']', '').gsub(', ,', '').gsub(' ,', '').gsub('} ', '}')#.split(', ')
-    #final_string = '[' + final_string + ']'
-    #render json: final_string.to_json
-    #return
-    #@test = TestResult.create(user_id: current_user.id)
-    #@test.test_details << final_string
 
   end
 
   def import_questions
     render layout: false
+  end
+
+  def import_chapters
+    render layout: false
+  end
+
+  def import_users
+    render layout: false
+  end
+
+  def importing_users
+    if request.post? && params[:file].present?
+      User.import(params[:file])
+      redirect_to '/admin/user', notice: "Users imported."
+    else
+      redirect_to '/admin/user', notice: "Users couldn't be imported."
+    end
   end
 
   def create_guest

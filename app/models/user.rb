@@ -5,7 +5,7 @@ class User < ActiveRecord::Base
          :recoverable, :rememberable, :trackable, :validatable
 
   # Setup accessible (or protected) attributes for your model
-  attr_accessible :email, :password, :password_confirmation, :remember_me, :name, :institute_name, :is_direct, :mobile_no, :max_tests, :is_admin, :is_guest, :uid, :provider, :oauth_token, :oauth_expires_at
+  attr_accessible :email, :password, :password_confirmation, :remember_me, :name, :institute_name, :is_direct, :mobile_no, :max_tests, :is_admin, :has_paid, :is_guest, :uid, :provider, :oauth_token, :oauth_expires_at
   # attr_accessible :title, :body
 
   has_many :test_details
@@ -29,6 +29,24 @@ class User < ActiveRecord::Base
   def send_registration_confirmation
     puts '====> ' + self.email
     #UserMailer.registration_confirmation(self).deliver
+  end
+
+  def self.import(file)
+    spreadsheet = open_spreadsheet(file)
+    header = spreadsheet.row(1)
+    puts '==========>>>> ' + header.to_s
+    (2..spreadsheet.last_row).each do |i|
+      User.create(name: spreadsheet.row(i)[0], email: spreadsheet.row(i)[1], password: spreadsheet.row(i)[2], password_confirmation: spreadsheet.row(i)[2], mobile_no: spreadsheet.row(i)[3], max_tests: spreadsheet.row(i)[4], is_admin: false, is_direct: true, is_guest: false)
+    end
+  end
+
+  def self.open_spreadsheet(file)
+    case File.extname(file.original_filename)
+      when '.csv' then Roo::Csv.new(file.path, nil, :ignore)
+      when '.xls' then Roo::Excel.new(file.path, nil, :ignore)
+      when '.xlsx' then Roo::Excelx.new(file.path, nil, :ignore)
+      else raise "Unknown file type: #{file.original_filename}"
+    end
   end
 
 end
