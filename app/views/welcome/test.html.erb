@@ -90,7 +90,7 @@
     <% end %>
     <% @fill_in_the_blank_next.each_with_index do |fill, index| %>
         <li>
-          <div class="srno_field"><%= (index+7) %></div>
+          <div class="srno_field"><%= (index+1+@fill_in_the_blank.size) %></div>
           <div class="que_field"><%= fill.cipher %></div>
 
           <div class="ans_field"><input type="text" size="15" name="<%= fill.id %>"></div>
@@ -121,7 +121,7 @@
     <% end %>
     <% @true_false_next.each_with_index do |tf, index| %>
         <li>
-          <div class="srno_field"><%= (index+7) %></div>
+          <div class="srno_field"><%= (index+1+@true_false.size) %></div>
           <div class="que_field"><%= tf.cipher %></div>
 
           <div class="ans_field">
@@ -164,7 +164,7 @@
     <% end %>
     <% @mcq1_next.each_with_index do |qn, index| %>
         <li>
-          <div class="srno_field"><%= index + 19 %></div>
+          <div class="srno_field"><%= index + @mcq1.size + 1 %></div>
           <div class="que_field_mcq"><%= qn.cipher %></div>
           <br>
           <br>
