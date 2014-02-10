@@ -38,7 +38,9 @@
     <br>
     <br>
     <br>
-    <%= link_to 'Take Test', test_path, id: "take_test", class: "red_button" %>
+    <% if @test_count > 0 %>
+        <%= link_to 'Take Test', test_path, id: "take_test", class: "red_button" %>
+    <% end %>
   </div>
   <div id='pie_chart'>
     <h2 style="text-align: center;">Question Paper Distribution</h2>
