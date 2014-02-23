@@ -39,10 +39,18 @@
         color: #87B87F;
     }
 
-    #sign_up_btn{
+    #sign_up_btn {
         font-size: 2.2em;
         margin-top: 8.9%;
         padding: 30px 13px;
+    }
+
+    p a {
+        font-weight: 300;
+    }
+    p a:hover{
+        color: #000000;
+        text-decoration: underline;
     }
 
 </style>
@@ -59,6 +67,7 @@
 <div id="container">
   <div id="left_container">
     <img src="assets/pricing.jpg">
+
     <p class="text">* First Year Launch discount of Rs. 50 on 10 Tests and Rs. 100 on 15 Tests.</p>
   </div>
   <div id="right_container">
@@ -71,7 +80,7 @@
 
       <p class="contact_lbl">EMAIL</p>
 
-      <p>letmepractice@gmail.com</p>
+      <p><a href="mailto:mail@letmepractice.com">mail@letmepractice.com</a></p>
 
     </div>
     <% if current_user.present? %>
@@ -86,7 +95,7 @@
   </div>
 
 </div>
-<div id='footer_panel' style="position: fixed; bottom: 10%;">
+<div id='footer_panel' style="position: absolute; top: 600px">
   <div id='copyright'>All Rights Reserved. 2013 <span class="copy_sym">&copy;</span>
     <a href='#'><span class="Y YB_logo">Yuva</span><span class="B YB_logo">Beat</span></a>
   </div>
