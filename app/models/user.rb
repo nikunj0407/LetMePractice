@@ -10,6 +10,7 @@ class User < ActiveRecord::Base
 
   has_many :test_details
   has_many :test_results
+  has_many :progress_report_users
 
 
   #def self.from_omniauth(auth)

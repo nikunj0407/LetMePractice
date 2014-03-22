@@ -15,7 +15,8 @@ class ProgressReportUsersController < ApplicationController
     @final_hash = []
     @progress_report_users.each do |report|
       key_array.each do |key|
-        @final_hash.push(report[key])
+        score = (report[key].nil?)? 0 : report[key]
+        @final_hash.push(score)
       end
     end
   end

@@ -3,4 +3,5 @@ class TestResult < ActiveRecord::Base
 
   belongs_to :user
   has_many :test_details, dependent: :destroy
+  has_one :progress_report_user, dependent: :destroy
 end
