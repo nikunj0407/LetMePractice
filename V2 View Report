@@ -1,0 +1,82 @@
+def view_report
+
+    @overall_performance = Result.joins("as results join tests on results.test_id=tests.id").select("avg(results.sub_score+results.obj_score) as average_score,
+                              max(results.sub_score+results.obj_score) as maximum_score,tests.total_marks as total_marks,tests.passing_marks as passing_marks").where("results.test_id=#{params[:test_id]} and results.test_id=tests.id").group("total_marks,passing_marks")
+    #create the hash for amchart column data format
+    @overall_performance_data = []
+    @overall_performance[0].attributes.each do |attr_name, attr_value|
+      modify_attr_name= attr_name.dup
+      @overall_performance_data << {score_name: (modify_attr_name.to_s.sub! '_', ' '), score: attr_value}
+    end
+    @count_student_in_test=Result.where(test_id: params[:test_id]).count
+
+    if current_user.role.name == 'student'
+
+      @user_score = Result.select("(results.sub_score + results.obj_score) as user_score").where("user_id=#{current_user.id} and test_id=#{params[:test_id]}").first.user_score
+
+      @questiontype=Question.joins("as que join result_details as rd on que.id = rd.question_id")
+      .select("ROUND(sum(rd.score)) as avg_score,ROUND(sum(que.weightage)) as weightage,rd.question_type")
+      .where("rd.test_id = #{params[:test_id]} and rd.user_id = #{current_user.id} and rd.test_id=que.test_id and que.id = rd.question_id").group("rd.question_type")
+
+      query="select chp.short_name as chapter_name,ROUND(sum(rd.score)) as score ,ROUND(sum(que.weightage)) as weightage from chapters chp,
+
+    result_details rd, questions que where que.id = rd.question_id and
+    rd.test_id=? and rd.user_id = #{current_user.id}  and que.chapter_id=chp.id group by chp.id"
+
+      @chapterwise=ResultDetail.find_by_sql([query, params[:test_id]])
+
+
+      query="select u.roll_no, u.name,c.name as centre_name,(r.sub_score + r.obj_score) as score,dense_rank() over( partition by c.id order by (r.sub_score + r.obj_score) desc)
+    as centre_rank, dense_rank() over(order by (r.sub_score+r.obj_score) desc) as institute_rank
+    from results r, centres c, users u
+    where r.test_id =? and u.id = r.user_id and u.centre_id = c.id and u.id = #{current_user.id}"
+      @students_rank= Result.find_by_sql([query, params[:test_id]])
+
+
+      @questn_max_mks_lost= Question.from_cte('max_mks_lost', Question.joins("as que join result_details as rd on que.id= rd.question_id").
+          includes(:options).select("que.id,dense_rank() over(order by (que.weightage-sum(rd.score)) desc) rank,
+    (que.weightage-sum(rd.score)) as avg_mks_lost,que.statement,que.weightage as weightage,que.type as question_type,
+    sum(rd.score)/que.weightage as num_student_answered_wrng").where("rd.test_id = #{params[:test_id]} and rd.user_id = #{current_user.id} ").
+
+          group("que.id,que.statement,que.weightage,que.type").order("rank asc, que.type asc")).where("max_mks_lost.rank < 3 ")
+
+    else
+      @questiontype=Question.joins("as que join result_details as rd on que.id = rd.question_id")
+      .select("ROUND(sum(rd.score)/#{@count_student_in_test}) as avg_score,ROUND(sum(que.weightage)/#{@count_student_in_test}) as weightage,rd.question_type")
+      .where("rd.test_id = #{params[:test_id]} and rd.test_id=que.test_id and que.id = rd.question_id").group("rd.question_type")
+
+      query="select chp.short_name as chapter_name,ROUND(sum(rd.score)/?) as score ,
+          ROUND(sum(que.weightage)/?) as weightage from chapters chp,
+          result_details rd, questions que where que.id = rd.question_id and
+          rd.test_id=? and que.chapter_id=chp.id group by chp.id"
+      @chapterwise=ResultDetail.find_by_sql([query, @count_student_in_test, @count_student_in_test, params[:test_id]])
+
+
+      query="select count(r.user_id) as Student_Count,(r.sub_score +r.obj_score) as score from results r
+            where test_id=? group by (r.sub_score +r.obj_score) order by (r.sub_score +r.obj_score) asc"
+      @marks_distribution = Result.find_by_sql([query, params[:test_id]]);
+
+      query="select u.roll_no, u.name,c.name as centre_name,(r.sub_score + r.obj_score) as score,dense_rank() over( partition by c.id order by (r.sub_score + r.obj_score) desc) as centre_rank, dense_rank() over(order by (r.sub_score+r.obj_score) desc) as institute_rank
+        from results r, centres c, users u
+        where r.test_id =? and u.id = r.user_id and u.centre_id = c.id"
+      @students_rank= Result.find_by_sql([query, params[:test_id]]);
+
+
+      query="select * from  (select u.roll_no, u.name as user_name, c.name as centre_name, (r.obj_score + r.sub_score) as score,c.name,dense_rank() over (order by (r.sub_score + r.obj_score) desc) rank from results r , users u, centres c where u.id=r.user_id and centre_id=c.id and  r.test_id=?) as student_ranks where rank<4"
+      @top_ranks=Result.find_by_sql([query, params[:test_id]])
+
+      @max_student_ans_wrong = Question.from_cte('max_student_wrong', Question.joins("as que join result_details as rd on que.id = rd.question_id").includes(:options).
+          select("que.id,count(*) as num_student_wrng_ans,dense_rank() over(order by count(*) desc) as rank,que.statement,que.weightage as weightage,que.type as question_type")
+      .where(" rd.test_id = #{params[:test_id]} and rd.score < que.weightage")
+      .group("que.id").order("rank asc, que.type asc")).where("max_student_wrong.rank < 3")
+
+      #postgres_ext was used for CTE
+      @questn_max_mks_lost= Question.from_cte('max_mks_lost', Question.joins("as que join result_details as rd on que.id = rd.question_id").includes(:options).
+          select("que.id,dense_rank() over(order by (que.weightage-(sum(rd.score)/#{@count_student_in_test})) desc) rank,
+           (que.weightage-(sum(rd.score)/#{@count_student_in_test})) as avg_mks_lost,que.statement,que.weightage as weightage,que.type as question_type,
+            sum(rd.score)/que.weightage as num_student_answered_wrng").where("rd.test_id = #{params[:test_id]} ").
+          group("que.id,que.statement,que.weightage,que.type").order("rank asc, que.type asc")).where("max_mks_lost.rank < 3 ")
+
+    end
+
+  end
